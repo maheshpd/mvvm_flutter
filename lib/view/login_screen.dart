@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mvvm_flutter/utils/routes/routes_name.dart';
+import 'package:mvvm_flutter/res/component/round_button.dart';
 import 'package:mvvm_flutter/utils/utils.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -10,20 +10,91 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
+  FocusNode emailFocusNode = FocusNode();
+  FocusNode passwordFocusNode = FocusNode();
+
+  bool isVisible = true;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    emailFocusNode.dispose();
+    passwordFocusNode.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height * 1;
     return Scaffold(
         appBar: AppBar(
           title: const Text('Login'),
         ),
-        body: Center(
-          child: InkWell(
-              onTap: () {
-                Utils.snackBar("No Internet Connection", context);
-                // Utils.flushBarErrorMessage('No Internet Connection', context);
-                // Utils.toastMessage('No Internet connection');
+        body: SafeArea(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            TextFormField(
+              controller: _emailController,
+              keyboardType: TextInputType.emailAddress,
+              focusNode: emailFocusNode,
+              decoration: const InputDecoration(
+                hintText: 'Email',
+                labelText: 'Email',
+                prefixIcon: Icon(Icons.alternate_email),
+              ),
+              onFieldSubmitted: (value) {
+                Utils.fieldFocusChange(
+                    context, emailFocusNode, passwordFocusNode);
               },
-              child: Text('Click')),
-        ));
+            ),
+            TextFormField(
+              controller: _passwordController,
+              obscureText: isVisible,
+              focusNode: passwordFocusNode,
+              obscuringCharacter: "*",
+              decoration: InputDecoration(
+                  hintText: 'Password',
+                  labelText: 'Password',
+                  prefixIcon: const Icon(Icons.lock_open_rounded),
+                  suffixIcon: InkWell(
+                      onTap: () {
+                        setState(() {
+                          isVisible = !isVisible;
+                        });
+                      },
+                      child: Icon(isVisible
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility))),
+            ),
+            SizedBox(
+              height: height * .1,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: RoundButtons(
+                title: "Login",
+                onPressed: () {
+                  if (_emailController.text.isEmpty) {
+                    Utils.flushBarErrorMessage("Please enter email", context);
+                  } else if (_passwordController.text.isEmpty) {
+                    Utils.flushBarErrorMessage(
+                        "Please enter password", context);
+                  } else if (_passwordController.text.length < 6) {
+                    Utils.flushBarErrorMessage(
+                        "Please enter 6 digit password", context);
+                  } else {
+                    print('Api hit');
+                  }
+                },
+              ),
+            )
+          ],
+        )));
   }
 }
