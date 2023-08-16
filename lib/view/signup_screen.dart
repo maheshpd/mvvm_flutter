@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:mvvm_flutter/res/component/round_button.dart';
-import 'package:mvvm_flutter/utils/routes/routes_name.dart';
 import 'package:mvvm_flutter/utils/utils.dart';
 import 'package:mvvm_flutter/viewmodel/auth_view_model.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
@@ -36,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final height = MediaQuery.of(context).size.height * 1;
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Login'),
+          title: const Text('Sign Up'),
         ),
         body: SafeArea(
             child: Column(
@@ -82,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: RoundButtons(
-                title: "Login",
+                title: "Sign up",
                 loading: authViewModel.loading,
                 onPressed: () {
                   if (_emailController.text.isEmpty) {
@@ -98,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       'email': _emailController.text.toString(),
                       'password': _passwordController.text.toString()
                     };
-                    authViewModel.loginApi(data, context);
+                    authViewModel.signup(data, context);
                     print('Api hit');
                   }
                 },
@@ -109,9 +108,9 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, RoutesName.signup);
+                  Navigator.pop(context);
                 },
-                child: const Text("Don't have an account? Sign up"))
+                child: const Text("Already have an account? Sign in"))
           ],
         )));
   }

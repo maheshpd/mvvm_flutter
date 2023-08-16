@@ -31,4 +31,22 @@ class AuthViewModel with ChangeNotifier {
       }
     });
   }
+
+  Future<void> signup(dynamic data, BuildContext context) async {
+    setLoading(true);
+    _myRepo.registerApi(data).then((value) {
+      setLoading(false);
+      Utils.flushBarErrorMessage("SignUp Successfull", context);
+      Navigator.pushNamed(context, RoutesName.home);
+      if (kDebugMode) {
+        print(value.toString());
+      }
+    }).onError((error, stackTrace) {
+      setLoading(false);
+      if (kDebugMode) {
+        Utils.flushBarErrorMessage(error.toString(), context);
+        print(error.toString());
+      }
+    });
+  }
 }
