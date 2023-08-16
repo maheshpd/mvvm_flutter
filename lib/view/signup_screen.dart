@@ -104,7 +104,7 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
             ),
             SizedBox(
-              height: height * .2,
+              height: height * .01,
             ),
             TextButton(
                 onPressed: () {

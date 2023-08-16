@@ -94,9 +94,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     Utils.flushBarErrorMessage(
                         "Please enter 6 digit password", context);
                   } else {
+                    // Map data = {
+                    //   'email': _emailController.text.toString(),
+                    //   'password': _passwordController.text.toString()
+                    // };
+
                     Map data = {
-                      'email': _emailController.text.toString(),
-                      'password': _passwordController.text.toString()
+                      'email': 'eve.holt@reqres.in',
+                      'password': 'cityslicka'
                     };
                     authViewModel.loginApi(data, context);
                     print('Api hit');
@@ -105,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             SizedBox(
-              height: height * .2,
+              height: height * .01,
             ),
             TextButton(
                 onPressed: () {
