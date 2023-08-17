@@ -99,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     //   'password': _passwordController.text.toString()
                     // };
 
-                    Map data = {
+                    Map<String, dynamic> data = {
                       'email': 'eve.holt@reqres.in',
                       'password': 'cityslicka'
                     };
